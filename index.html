@@ -77,24 +77,28 @@
       .maincontainer {
         display: none;
       }
-      
+
       .fa-spin {
         transition: 0.5s ease-in;
       }
       .image {
         filter: blur(30px);
         transition: 0.5s ease-in;
-        
       }
-      
     </style>
   </head>
 
   <body>
     <div
-      class="w-[350px] rounded fixed z-30 bg-rose-300 top-[10px] p-2 m-2 text-center"
+      class="w-[350px] flex justify-center items-center rounded fixed z-30 bg-rose-300 top-[10px] p-2 m-2 text-center"
     >
+      <div class="loader mx-2">
+        <i class="fa-solid fa-spin fa-arrows-spin"></i>
+      </div>
       Danbooru Dataset
+      <div class="loader mx-2">
+        <i class="fa-solid fa-spin fa-arrows-spin"></i>
+      </div>
     </div>
     <div
       class="loading text-3xl flex justify-content items-center flex-col font-bold"
@@ -128,7 +132,7 @@
         for (var i = 0; i < 11; i++) {
           count++;
           //const json = await fetchData(count + 1);
-          const json = await fetchData(Math.floor(Math.random()*60000));
+          const json = await fetchData(Math.floor(Math.random() * 60000));
           if (!json) {
             continue;
           }
@@ -148,34 +152,49 @@
             file_url = json.file_url || "N/A",
             large_file_url = json.large_file_url || "N/A",
             preview_file_url = json.preview_file_url || "N/A";
-            
-            let loadercircle = ["fa-circle-notch","fa-circle-nodes","fa-circle-radiation"];
-            
+
+          let loadercircle = [
+            "fa-circle-notch",
+            "fa-circle-nodes",
+            "fa-circle-radiation",
+          ];
+
           if (created_at === "N/A" || file_url === "N/A") {
             container.innerHTML +=
               await '<div class=" flex justify-between items-center font-bold text-center bg-stone-300 rounded p-2 m-2"><i class="fa-solid text-rose-800 fa-circle-exclamation"></i>This Data is missing<i class="fa-solid text-rose-800 fa-circle-exclamation"></i></div>';
           } else {
             datahtml +=
-              await `<div class="maincontainer w-[350px] min-h-[1200px] my-[10px] flex justify-center items-center flex-col p-2 m-2 rounded bg-gray-300 relative border-2 border-gray-400"><div class=" w-[200px] z-10  bg-red-400 font-bold border-2 border-red-500 rounded text-center p-2"><i class="fa-regular fa-lightbulb"></i>ID: <span class="image">${id}</span></div><div class=" bg-slate-100 rounded p-2 m-2 text-center font-bold"><i class="fa-solid fa-clock"></i>Date-created:<span class="image font-medium bg-red-400 rounded px-1">${created_at.slice(0,10)}</span></div><div class="w-full p-1 flex justify-center items-center flex-col bg-slate-100 rounded relative overflow-hidden"><i class="loader z-10 absolute text-[90px] fa-solid ${loadercircle[Math.floor(Math.random()*loadercircle.length)]} fa-spin"></i><img class="image w-full h-[400px] rounded border border-cyan-300 bg-red-500 bg-rose-500" src="${file_url}" alt="image not found"></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-sharp fa-solid fa-palette"></i>Artist:<span class="image font-medium bg-green-400 rounded px-1">${tag_string_artist}</span></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-solid fa-terminal"></i>Prompt:<article class="cutoff-text image font-medium bg-cyan-200 px-1 rounded">${tag_string}</article><input class="expand-btn" type="checkbox"></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-solid fa-people-arrows"></i>Tag String Character :<span class="image font-medium bg-cyan-500 rounded px-1">${tag_string_character}</span></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-solid fa-copyright"></i>Tag String Copyright :<span class="image font-medium bg-cyan-500 rounded px-1">${tag_string_copyright}</span></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-solid fa-meteor"></i>Tag String Meta :<span class="image font-medium bg-cyan-500 rounded px-1">${tag_string_meta}</span></div><div class="w-full gap-2 grid grid-cols-2 justify-between items-center font-bold bg-slate-100 rounded p-2 m-2"><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Width:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${image_width}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Height:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${image_height}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Love:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${fav_count}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Size:</div><div class="image text-[10px] flex justify-center items-center px-2 bg-cyan-400 font-medium rounded text-center">${file_size}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Ext:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${file_ext}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Score:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${score}</div></div></div><div class="w-full flex justify-between items-center flex-col font-bold bg-slate-100 rounded p-2 m-2"><div class="w-full flex justify-between items-center font-bold bg-stone-300 rounded p-2 m-2"><div class="w-[80px]">File url:</div><input class="image w-[200px] px-2 rounded font-medium" type="text" value="${file_url}" readonly="readonly"><a href="${file_url}" class="p-1 bg-green-400 text-[10px] rounded mx-2"><i class="fa-solid fa-paperclip"></i></a></div><div class="w-full flex justify-between items-center font-bold bg-stone-300 rounded p-2 m-2"><div class="w-[80px]">Large file url:</div><input class="image w-[200px] px-2 rounded font-medium" type="text" value="${large_file_url}" readonly="readonly"><a href="${large_file_url}" class="p-1 bg-green-400 text-[10px] rounded mx-2"><i class="fa-solid fa-paperclip"></i></a></div><div class="w-full flex justify-between items-center font-bold bg-stone-300 rounded p-2 m-2"><div class="w-[80px]">preview file url:</div><input class="image w-[200px] px-2 rounded font-medium" type="text" value="${preview_file_url}" readonly="readonly"><a href="${preview_file_url}" class="p-1 bg-green-400 text-[10px] rounded mx-2"><i class="fa-solid fa-paperclip"></i></a></div></div></div>`;
+              await `<div class="maincontainer w-[350px] min-h-[1200px] my-[10px] flex justify-center items-center flex-col p-2 m-2 rounded bg-gray-300 relative border-2 border-gray-400"><div class=" w-[200px] z-10  bg-red-400 font-bold border-2 border-red-500 rounded text-center p-2"><i class="fa-regular fa-lightbulb"></i>ID: <span class="image">${id}</span></div><div class=" bg-slate-100 rounded p-2 m-2 text-center font-bold"><i class="fa-solid fa-clock"></i>Date-created:<span class="image font-medium bg-red-400 rounded px-1">${created_at.slice(
+                0,
+                10
+              )}</span></div><div class="w-full p-1 flex justify-center items-center flex-col bg-slate-100 rounded relative overflow-hidden"><i class="loader z-10 absolute text-[90px] fa-solid ${
+                loadercircle[Math.floor(Math.random() * loadercircle.length)]
+              } fa-spin"></i><img class="image w-full h-[400px] rounded border border-cyan-300 bg-red-500 bg-rose-500" src="${file_url}" alt="image not found"></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-sharp fa-solid fa-palette"></i>Artist:<span class="image font-medium bg-green-400 rounded px-1">${tag_string_artist}</span></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-solid fa-terminal"></i>Prompt:<article class="cutoff-text image font-medium bg-cyan-200 px-1 rounded">${tag_string}</article><input class="expand-btn" type="checkbox"></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-solid fa-people-arrows"></i>Tag String Character :<span class="image font-medium bg-cyan-500 rounded px-1">${tag_string_character}</span></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-solid fa-copyright"></i>Tag String Copyright :<span class="image font-medium bg-cyan-500 rounded px-1">${tag_string_copyright}</span></div><div class="w-full font-bold bg-slate-100 rounded p-2 m-2"><i class="fa-solid fa-meteor"></i>Tag String Meta :<span class="image font-medium bg-cyan-500 rounded px-1">${tag_string_meta}</span></div><div class="w-full gap-2 grid grid-cols-2 justify-between items-center font-bold bg-slate-100 rounded p-2 m-2"><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Width:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${image_width}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Height:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${image_height}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Love:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${fav_count}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Size:</div><div class="image text-[10px] flex justify-center items-center px-2 bg-cyan-400 font-medium rounded text-center">${file_size}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Ext:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${file_ext}</div></div><div class="w-[140px] bg-rose-500 flex justify-between rounded p-2 m-2"><div class="w-[60px] px-2 bg-cyan-400 rounded text-center">Score:</div><div class="image px-2 bg-cyan-400 font-medium rounded text-center">${score}</div></div></div><div class="w-full flex justify-between items-center flex-col font-bold bg-slate-100 rounded p-2 m-2"><div class="w-full flex justify-between items-center font-bold bg-stone-300 rounded p-2 m-2"><div class="w-[80px]">File url:</div><input class="image w-[200px] px-2 rounded font-medium" type="text" value="${file_url}" readonly="readonly"><a href="${file_url}" class="p-1 bg-green-400 text-[10px] rounded mx-2"><i class="fa-solid fa-paperclip"></i></a></div><div class="w-full flex justify-between items-center font-bold bg-stone-300 rounded p-2 m-2"><div class="w-[80px]">Large file url:</div><input class="image w-[200px] px-2 rounded font-medium" type="text" value="${large_file_url}" readonly="readonly"><a href="${large_file_url}" class="p-1 bg-green-400 text-[10px] rounded mx-2"><i class="fa-solid fa-paperclip"></i></a></div><div class="w-full flex justify-between items-center font-bold bg-stone-300 rounded p-2 m-2"><div class="w-[80px]">preview file url:</div><input class="image w-[200px] px-2 rounded font-medium" type="text" value="${preview_file_url}" readonly="readonly"><a href="${preview_file_url}" class="p-1 bg-green-400 text-[10px] rounded mx-2"><i class="fa-solid fa-paperclip"></i></a></div></div></div>`;
           }
-          setTimeout( async () => {
+          
+          
+          setTimeout(async () => {
             hideloading();
-            container.innerHTML =  datahtml;
-          },);
-          await new Promise((resolve) => setTimeout(resolve,1));
+            container.innerHTML = datahtml;
+          });
+          await new Promise((resolve) => setTimeout(resolve, 1));
         }
         const image = document.querySelectorAll(".image");
         const loader = document.querySelectorAll(".loader");
-        for(let i=0; i<image.length; i++) {
-          for(let k=0; k<image.length; k++) {
-            await new Promise((resolve) => setTimeout(resolve,1));
-            image[k].style.filter = await "blur(0px)";
-            loader[i].style.display = await "none";
+
+        try {
+          for (let i = 0; i < image.length; i++) {
+            for (let k = 0; k < image.length; k++) {
+              //await new Promise((resolve) => setTimeout(resolve,0.01));
+              image[k].style.filter = await "blur(0px)";
+              loader[i].style.display = await "none";
+            }
           }
+        } catch (error) {
+          // alert(error)
         }
       };
       data();
     </script>
-
   </body>
 </html>
