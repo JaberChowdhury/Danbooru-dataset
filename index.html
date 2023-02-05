@@ -114,9 +114,9 @@
       };
       const data = async () => {
         let datahtml = "";
-        let count = 23820;
-        for (var i = 0; i < 100; i++) {
-          count--;
+        let count = 1;
+        for (var i = 0; i < 60000; i++) {
+          count++;
           const json = await fetchData(count + 1);
           if (!json) {
             continue;
